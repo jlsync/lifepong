@@ -13,13 +13,14 @@ class Canvas
     @width = width
     @height = height
 
-  new_position: (id, x, y, w, h ) ->
+  new_position: (id, x, y, w, h, kind ) ->
     global.io.sockets.emit('new_position',
       id: id
       lat:  "50.#{x}"
       lng: "0.#{y}"
       w: w
       h: h
+      kind: kind
     )
     #todo global emit or emit to players
 
@@ -63,7 +64,7 @@ class Entity
     @y = @minY if @y < @minY
 
   draw: ->
-    @canvas.new_position(@id, @x+@offsetX, @y+@offsetY, @w, @h )
+    @canvas.new_position(@id, @x+@offsetX, @y+@offsetY, @w, @h, @kind )
 
   accelX: -> @vx += @a
   accelY: -> @vy += @a
@@ -76,8 +77,10 @@ class Entity
     @vy += @a
 
 class Bat extends Entity
-  w: 40, h: 175,  side: LEFT
-
+  w: 40
+  h: 175
+  side: LEFT
+  kind: 'bat'
 
   randColor: ->
     @r = "#{parseInt((Math.random() * 240),10)}"
@@ -96,13 +99,10 @@ class Bat extends Entity
 
   getSide: -> @side
 
-  draw: ->
-    super()
-    #@canvas.fillText(... # todo
-    
 
 class Ball extends Entity
   w: 40, h: 40, x: 200, y: 200, game_over: false
+  kind: 'ball'
 
   checkGameOver: -> @game_over
 
@@ -130,9 +130,6 @@ class Ball extends Entity
         @vx = -@vx
         e.score_plus_one()
 
-  draw: ->
-    @canvas.new_position @id, @x+@offsetX, @y+@offsetY, @w, @h
-  
 class PongApp
   main: ->
     @createCanvas()
@@ -222,7 +219,7 @@ class PongApp
 
       # Run again unless we have been killed
       clearInterval(@interval_id) if @terminateRunLoop
-    , 200
+    , 400
 
   notifyCurrentUser: (message) ->
     # NODE TODO
