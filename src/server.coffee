@@ -45,8 +45,8 @@ app.configure "development", ->
   app.use express.errorHandler()
   app.set "port", siteConf.port
 
-
-app.get "/", routes.index
+app.use '/', express.static app.get('baseDir') + '/public'
+app.use '/*', express.static app.get('baseDir') + '/public'
 app.get "/app", User.require_user, routes.app
 
 pid = setInterval ->
