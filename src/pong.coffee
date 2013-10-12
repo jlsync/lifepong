@@ -16,13 +16,16 @@ class Canvas
   new_position: (id, x, y, w, h, kind ) ->
     global.io.sockets.emit('new_position',
       id: id
-      lat:  "50.#{x}"
+      lat:  "51.#{x}"
       lng: "0.#{y}"
       w: w
       h: h
       kind: kind
     )
     #todo global emit or emit to players
+    
+  undraw: (id, kind ) ->
+    global.io.sockets.emit('undraw', id: id, kind: kind)
 
 
 class Entity
@@ -65,6 +68,9 @@ class Entity
 
   draw: ->
     @canvas.new_position(@id, @x+@offsetX, @y+@offsetY, @w, @h, @kind )
+
+  undraw: ->
+    @canvas.undraw(@id, @kind )
 
   accelX: -> @vx += @a
   accelY: -> @vy += @a
@@ -147,10 +153,11 @@ class PongApp
     else if dir is "down"
       console.log("moving #{from} down")
       @players[from].down()
+    @players[from].draw()
 
   player_leave: (from: from) ->
+    @players[from].undraw()
     delete @players[from]
-
 
   newPlayer: (name) ->
     np =  new Bat @canvas, @canvas.width, @canvas.height, 0, 0, 30, 0, BAT_ACCELERATION, BAT_TERMINAL_VELOCITY, BAT_FRICTION
@@ -199,9 +206,11 @@ class PongApp
 
       # Check for ball collsions with bats
       @ball.checkCollision(p) for name,p of @players
+      @ball.draw()
 
       # Check for winner
       if @ball.checkGameOver()
+        @ball.undraw()
         @terminateRunLoop = true
         @notifyCurrentUser "Game Over! Scores:<br/>#{("#{p.getNameXX()}: #{p.getScore()}<br/>" for name, p of @players).join("")}<br/> New game starting in 3 seconds."
         setTimeout =>
@@ -209,13 +218,6 @@ class PongApp
           @terminateRunLoop = false
           @startNewGame()
         , 3000
-
-      # Clear the Canvas
-      @clearCanvas()
-    
-      # Redraw game entities
-      p.draw() for name, p of @players
-      @ball.draw()
 
       # Run again unless we have been killed
       clearInterval(@interval_id) if @terminateRunLoop
@@ -228,14 +230,11 @@ class PongApp
   # Run when the game is quit to clean up everything we create
   cleanup: ->
     @terminateRunLoop = true
-    @clearCanvas()
 
   # Creates an overlay for the sceen and a canvas to draw the game on
   createCanvas: ->
     @canvas = new Canvas(500, 500)
 
-  clearCanvas: ->
-    # emit player clear
 
 
 exports.Bat = Bat
