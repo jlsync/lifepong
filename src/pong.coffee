@@ -181,7 +181,8 @@ class PongApp
     for name, p of @players
       p.h = parseInt(height,10)
 
-    np.draw()
+    # redraw all players
+    p.draw() for name, p of @players
     np
 
   addPlayer: (player) ->
