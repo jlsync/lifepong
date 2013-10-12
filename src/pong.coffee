@@ -139,22 +139,16 @@ class PongApp
     @startNewGame()
 
     @players = {}
-    @bat1 = new Bat @canvas, @canvas.width, @canvas.height, 0, 0, 30, 0, BAT_ACCELERATION, BAT_TERMINAL_VELOCITY, BAT_FRICTION
-    @bat1.setName('bat1')
-    @bat1.setSide(LEFT)
+    console.log("pong started!")
 
-    @bat2 = new Bat @canvas, @canvas.width, @canvas.height, 0, 0, @canvas.width - 70, 0, BAT_ACCELERATION, BAT_TERMINAL_VELOCITY, BAT_FRICTION
-    @bat2.setName('bat2')
-    @bat2.setSide(RIGHT)
 
-    #OFF @addPlayer(@bat1)
-    #OFF @addPlayer(@bat2)
-
-  move: (from: from, digit: digit) ->
+  move: (from: from, dir: dir) ->
     @newPlayer(from) if not @players[from]
-    if digit is "4"
+    if dir is "up"
+      console.log("moving #{from} up")
       @players[from].up()
-    else if digit is "6"
+    else if dir is "down"
+      console.log("moving #{from} down")
       @players[from].down()
 
   player_leave: (from: from) ->
@@ -228,7 +222,7 @@ class PongApp
 
       # Run again unless we have been killed
       clearInterval(@interval_id) if @terminateRunLoop
-    , 20
+    , 200
 
   notifyCurrentUser: (message) ->
     # NODE TODO
@@ -254,4 +248,5 @@ exports.Ball = Ball
 # default game
 exports.pong = pong = new PongApp
 pong.main()
+
 

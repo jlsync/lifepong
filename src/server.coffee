@@ -19,7 +19,6 @@ sessionStore = new express.session.MemoryStore()
 
 global.io = new require("./socket-io-server")(httpServer, sessionStore, siteConf.cookieSecret)
 
-{User} = require("./user")
 
 {pong, Bat, PongApp, Ball} = require("./pong")
 
@@ -48,7 +47,7 @@ app.configure "development", ->
   app.set "port", siteConf.port
 
 app.use '/', express.static app.get('baseDir') + '/public'
-app.get "/app", User.require_user, routes.app
+app.get "/app", routes.app
 app.use '/*', express.static app.get('baseDir') + '/public'
 
 pid = setInterval ->
