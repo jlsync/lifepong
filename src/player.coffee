@@ -18,6 +18,10 @@ class Player extends EE
     player = @
 
     @client.on 'my_position', (data ) -> player.new_my_position(data)
+    @client.on 'disconnect', (data ) -> player.disconnect(data)
+
+  disconnect: (data) ->
+    pong.player_leave from: @client.id
 
   new_my_position: (data) ->
     @new_lat = parseFloat(data.latitude)
