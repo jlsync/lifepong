@@ -46,8 +46,8 @@ app.configure "development", ->
   app.set "port", siteConf.port
 
 app.use '/', express.static app.get('baseDir') + '/public'
-app.use '/*', express.static app.get('baseDir') + '/public'
 app.get "/app", User.require_user, routes.app
+app.use '/*', express.static app.get('baseDir') + '/public'
 
 pid = setInterval ->
     io.sockets.emit('ping', packet: "ping at #{moment().toString()}")
