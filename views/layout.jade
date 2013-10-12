@@ -1,0 +1,11 @@
+doctype 5
+html(lang="en")
+  head
+
+    title #{title || 'Untitled'} | LifePong
+    script(src="http://code.jquery.com/jquery-1.10.2.min.js")
+    script(src="/socket.io/socket.io.js", charset="utf8")
+    != css('style.css')
+    != js('app.js')
+  body
+    block content
