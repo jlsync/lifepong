@@ -29,10 +29,28 @@ var players = {
   }
 }
 
-var map = L.map('map').setView( center.pos, 20 );
+// Nokia.normalDay
+// Nokia.normalGreyDay
+// Nokia.satelliteNoLabelsDay
+// Nokia.satelliteYesLabelsDay
+// Nokia.terrainDay
+
+var map = L.map('map', { zoomControl:false, zoom: 18, maxZoom: 20 } );
+map.setView( center.pos, 18 );
+
+// setTimeout( map.setView.bind( map, center.pos, 20 ), 1000 );
+
+// nokia maps
+L.tileLayer.provider('Nokia.terrainDay', {
+  devID: 'pT52rESblK2luN6D0562LQ',
+  appId: 'yKqVsh6qFoKdZQmFP2Cn'
+}).addTo(map);
+
+// paddles
 L.marker(players.player1.pos).addTo(map).bindPopup("Player1");
 L.marker(players.player2.pos).addTo(map).bindPopup("Player2");
 
+// border
 L.polygon(border, {color: 'black', fill: false, opacity:1}).addTo(map);
 
 // player 1 paddle
