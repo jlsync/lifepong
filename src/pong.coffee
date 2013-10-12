@@ -16,7 +16,7 @@ class Canvas
   new_position: (id, x, y, w, h, kind ) ->
     global.io.sockets.emit('new_position',
       id: id
-      lat:  "51.#{x}"
+      lat: "#{51.5 - parseFloat("0.#{x}")}"
       lng: "0.#{y}"
       w: w
       h: h
@@ -178,11 +178,10 @@ class PongApp
              else
               @canvas.height / 6
 
-    for name, p of @players
-      p.h = parseInt(height,10)
+    for iname, ip of @players
+      ip.h = parseInt(height,10)
+      ip.draw() # redraw all players
 
-    # redraw all players
-    p.draw() for name, p of @players
     np
 
   addPlayer: (player) ->
