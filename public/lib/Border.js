@@ -14,7 +14,7 @@ var Border = function( game, style ){
 
 Border.prototype.getCoords = function(){
   var bounds = this.game.map.getBounds();
-  console.log( 'bounds', bounds );
+  // console.log( 'bounds', bounds );
   return [
     [ bounds.getNorth() - this.padding, bounds.getWest() + this.padding ],
     [ bounds.getSouth() + this.padding, bounds.getWest() + this.padding ],

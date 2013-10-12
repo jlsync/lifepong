@@ -8,7 +8,8 @@ var Ball = function( game, style ){
     fill: true,
     fillColor: 'black',
     fillOpacity: 1,
-    stroke: false
+    stroke: false,
+    clickable: false
   }
 
   this.attachToMap();
