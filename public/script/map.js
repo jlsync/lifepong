@@ -105,6 +105,15 @@ var game = new Game( map );
 game.addPlayer( p1 );
 game.addPlayer( p2 );
 
+// Server client
+var client = new Client();
+client.bindPlayer( p1 );
+client.bindPlayer( p2 );
+
+// p1.events.on( 'location', console.log.bind( console ) );
+
+
+// THIS SHOULD BE LAST
 // set player coords
 // p1.pollLocation( 1000 );
 p1.setCoords({
@@ -115,5 +124,3 @@ p2.setCoords({
   latitude: 51.5045,
   longitude: -0.016
 });
-
-// p1.events.on( 'location', console.log.bind( console ) );
