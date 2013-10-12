@@ -1,6 +1,6 @@
 
 var Client = function(){
-  this.socket = io.connect( 'http://localhost' );
+  this.socket = io.connect();
 }
 
 Client.prototype.bindPlayer = function( player ){
