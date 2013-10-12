@@ -1,17 +1,12 @@
 
-StateMachine ?= require('./sm').StateMachine
-Card ?= require('./card').Card
-Deck ?= require('./deck').Deck
-Pile ?= require('./pile').Pile
-Collection ?= require('./collection').Collection
+window.StateMachine ?= require('./sm').StateMachine
+window.Collection ?= require('./collection').Collection
 
 states =
   start:
     full_name: 'Waiting for Players'
-  shuffling:
-    full_name: 'Shuffling Deck'
-  dealing:
-    full_name: 'Dealing cards'
+  starting:
+    full_name: 'Starting Up'
   playing:
     full_name: 'Playing'
   finished:
@@ -43,42 +38,18 @@ events =
       true
   start_game:
     transitions:
-      start: 'shuffling'
+      start: 'starting'
     callback: (data, player) ->
       @broadcast "game started by #{player.user_id}"
       @broademit "started"
-      @deck.shuffle()
       for name, pile of @piles
         @broademit 'pile', pile: pile
       setTimeout =>
         @trigger('shuffled')
       , 1000
-  shuffled:
-    transitions:
-      shuffling: 'dealing'
-    callback: ->
-      for p in @players
-        hand = new Pile(name: "#{p.user_id}'s hand")
-        @piles[hand.name] = hand
-        hand.add @deck.deal()[0]
-        hand.add @deck.deal()[0]
-        hand.add @deck.deal()[0]
-        hand.add @deck.deal()[0]
-        p.hand = hand
-        @playeremit p, 'pile', pile: p.hand
-      setTimeout =>
-        @trigger('delt')
-      , 1000
-  delt:
-    transitions:
-      dealing: 'playing'
-    callback: ->
-      @turn = @players[0]
-      @broadcast "it's now #{@turn.id}'s turn!"
   played:
     transitions:
-      playing: 'playing'
-      playing: 'finished'
+      playing: [ 'playing', 'finished' ]
     callback: (data, player) ->
       if @turn == player
         card = new Card(data.card)
@@ -158,4 +129,15 @@ class Game extends StateMachine
 new Game()
 
 (exports ? window).Game = Game
+
+{Connection} = require('./connection')
+
+Connection.bindings['list_games'] = (data) ->
+  c = @
+  Game.all (err, all) =>
+    console.log(err) if err?
+    c.sio.emit "game_list", { games: g.toJSON() for g in all }
+    #eqivalent: global.io.sockets.in(c.id).emit "game_list", { ....  }
+
+
 

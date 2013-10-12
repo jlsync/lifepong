@@ -27,6 +27,11 @@ socket.on "viewer_left", (data) ->
 socket.on "ping", (data) ->
   console?.log("got ping at #{(new Date()).toString()}: #{data.packet}")
 
+
+socket.on "new_position", (data) ->
+  # call some map_up_function(data ...)
+  console?.log("got new_position with data", data)
+
 socket.on "connect", ->
   socket.emit('list_games')
 

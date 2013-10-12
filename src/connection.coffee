@@ -44,17 +44,15 @@ Connection.connection = (client) ->
 
   if user = client.handshake.session.user
     if not user.id?
-      User.findOrCreate user, (muser) ->
-        user.id = muser.id
-
-        # Join user to specific user channel/room, 
-        # this is good so content is send across user browsers & devices.
-        client.join "user_#{client.handshake.session.user.id}"
+      # create User... and then
+  
+      #  # Join user to specific user channel/room, 
+      #  # this is good so content is send across user browsers & devices.
+      #  client.join "user_#{client.handshake.session.user.id}"
     else
       # Join user to specific user channel/room, 
       # this is good so content is send across user browsers & devices.
-      client.join "user_#{client.handshake.session.user.id}"
-
+      #client.join "user_#{client.handshake.session.user.id}"
 
   user_name = (if user then user.name else "UID: " + (client.handshake.session.uid or "has no UID"))
 
