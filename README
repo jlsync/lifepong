@@ -4,3 +4,6 @@ npm install
 
 nodemon bootstrap.js
 
+
+===
+heroku config:add NODE_ENV=production
