@@ -20,5 +20,5 @@ Client.prototype.bindPlayer = function( player ){
     console.log( 'SEND', data );
   });
 
-  this.socket.on( 'new_position', console.log.bind( console, 'RECV' ) );
+  // this.socket.on( 'new_position', console.log.bind( console, 'RECV' ) );
 }
