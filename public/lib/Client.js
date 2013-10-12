@@ -1,6 +1,7 @@
 
-var Client = function(){
+var Client = function( game ){
   this.socket = io.connect();
+  this.game = game;
 }
 
 Client.prototype.bindPlayer = function( player ){
@@ -20,6 +21,9 @@ Client.prototype.bindPlayer = function( player ){
     console.log( 'SEND', data );
   });
 
+  // debugging
+  debug( this );
+
   this.socket.on( 'new_position', console.log.bind( console, 'RECV' ) );
 
   this.socket.on('broadcast', function(data){console.log("broadcast: " + data.message); }); 
@@ -33,4 +37,29 @@ Client.prototype.bindPlayer = function( player ){
   this.socket.on('error', function(data){console.log("socket:error"); }); 
   this.socket.on('connect_failed', function(data){console.log("socket:connect_failed"); }); 
   this.socket.on('reconnect_failed', function(data){console.log("socket:reconnect_failed"); }); 
+}
+
+// h: 125
+// id: 1
+// kind: "bat"
+// lat: "50.30"
+// lng: "0.0"
+// w: 40
+
+var objects = {};
+
+function debug( client ){
+  client.socket.on( 'new_position', function( data ){
+    if( !( data.id in objects ) ){
+      console.log( 'create new ball' )
+      objects[ data.id ] = new Ball( client.game, {
+        fill: true,
+        fillColor: 'blue',
+        fillOpacity: 1,
+        stroke: false,
+        clickable: false
+      });
+    }
+    objects[ data.id ].ball.setLatLng([ data.lat, data.lng ]);
+  });
 }

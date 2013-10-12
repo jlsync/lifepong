@@ -106,7 +106,7 @@ game.addPlayer( p1 );
 game.addPlayer( p2 );
 
 // Server client
-var client = new Client();
+var client = new Client( game );
 client.bindPlayer( p1 );
 client.bindPlayer( p2 );
 
