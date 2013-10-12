@@ -115,11 +115,11 @@ client.bindPlayer( p2 );
 
 // THIS SHOULD BE LAST
 // set player coords
-// p1.pollLocation( 1000 );
-p1.setCoords({
-  latitude: 51.5045,
-  longitude: -0.0225
-});
+p1.pollLocation( 1000 );
+// p1.setCoords({
+//   latitude: 51.5045,
+//   longitude: -0.0225
+// });
 p2.setCoords({
   latitude: 51.5045,
   longitude: -0.016
