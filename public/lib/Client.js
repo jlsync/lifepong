@@ -51,15 +51,10 @@ var objects = {};
 function debug( client ){
   client.socket.on( 'new_position', function( data ){
     if( !( data.id in objects ) ){
-      console.log( 'create new ball' )
-      objects[ data.id ] = new Ball( client.game, {
-        fill: true,
-        fillColor: 'blue',
-        fillOpacity: 1,
-        stroke: false,
-        clickable: false
-      });
+      console.log( 'create new ball' );
+      var Model = ( data.kind == 'bat' ) ? Paddle : Ball;
+      objects[ data.id ] = new Model( client.game );
     }
-    objects[ data.id ].ball.setLatLng([ data.lat, data.lng ]);
+    objects[ data.id ].moveToLocation({ latitude: data.lat, longitude: data.lng });
   });
 }

@@ -98,12 +98,14 @@ this.map.setView( [ 51.5072, 0.1275 ], 10 );
 var p1 = new Player( 'peter' );
 var p2 = new Player( 'computer' );
 
-var paddle1 = new Paddle( map, p1 );
-var paddle2 = new Paddle( map, p2 );
-
 var game = new Game( map );
 game.addPlayer( p1 );
 game.addPlayer( p2 );
+
+var paddle1 = new Paddle( game );
+var paddle2 = new Paddle( game );
+// paddle1.setPlayer( p1 );
+// paddle2.setPlayer( p2 );
 
 // Server client
 var client = new Client( game );

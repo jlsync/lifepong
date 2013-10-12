@@ -27,7 +27,7 @@ Game.prototype.start = function(){
   if( !this.started ){
     this.started = true;
     this.center = findCenter( this.players );
-    this.map.setView( this.center, 18 );
+    // this.map.setView( this.center, 18 );
     var border = new Border( this );
     var ball = new Ball( this );
   }

@@ -11,10 +11,14 @@ var Ball = function( game, style ){
     stroke: false,
     clickable: false
   }
+}
 
-  this.attachToMap();
+Ball.prototype.moveToLocation = function( location ){
+  if( !this.ball ) this.attachToMap( location );
+  this.ball.setLatLng([ location.latitude, location.longitude ]);
 }
 
 Ball.prototype.attachToMap = function( location ){
+  console.log( 'attachToMap', this.game.center );
   this.ball = L.circleMarker( this.game.center, this.style ).setRadius( this.radius ).addTo( this.game.map );
 }
