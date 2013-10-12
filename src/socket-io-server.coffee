@@ -1,4 +1,5 @@
-{Connection} = require('./connection')
+
+Player = require('./player').Player
 
 module.exports = Server = (httpServer, sessionStore, cookieSecret ) ->
   parseSignedCookies = require("connect").utils.parseSignedCookies
@@ -12,7 +13,6 @@ module.exports = Server = (httpServer, sessionStore, cookieSecret ) ->
     raw_cookies = cookie.parse(decodeURIComponent(handshakeData.headers.cookie))
     cookies = parseSignedCookies(raw_cookies, cookieSecret)
 
-    handshakeData.nuid = raw_cookies["nuid"] or null
     handshakeData.sid = cookies["connect.sid"] or null
 
     sessionStore.get cookies["connect.sid"], (err, sessionData) ->
@@ -21,7 +21,12 @@ module.exports = Server = (httpServer, sessionStore, cookieSecret ) ->
 
 
   io.sockets.on "connection", (client) ->
-    Connection.connection(client)
+
+    new Player(client.id, client)
+
+    client.on 'disconnect', ->
+      console.log "socket disconnect connection"
+
 
 
   io.sockets.on "error", ->
