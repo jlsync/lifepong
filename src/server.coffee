@@ -21,6 +21,8 @@ global.io = new require("./socket-io-server")(httpServer, sessionStore, siteConf
 
 {User} = require("./user")
 
+{pong, Bat, PongApp, Ball} = require("./pong")
+
 app.configure ->
   app.set "port", process.env.PORT or 3000
   app.set "views", global.__root + "/views"

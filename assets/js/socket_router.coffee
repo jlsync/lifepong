@@ -23,10 +23,14 @@ socket.on "viewer_entered", (data) ->
 socket.on "viewer_left", (data) ->
   console?.log("got viewer_left", data)
 
-socket.on "lot_list", (data) ->
-  console?.log("got lot_list", data)
-  PB.lots.reset(data.lots)
 
+socket.on "ping", (data) ->
+  console?.log("got ping at #{(new Date()).toString()}: #{data.packet}")
+
+
+socket.on "new_position", (data) ->
+  # call some map_up_function(data ...)
+  console?.log("got new_position with data", data)
 
 socket.on "connect", ->
   socket.emit('list_games')
