@@ -24,6 +24,7 @@ class Player extends EE
     pong.player_leave from: @client.id
 
   new_my_position: (data) ->
+    console.log("got #{@user_id} up", data.lat, data.lng )
     @new_lat = parseFloat(data.lat)
     @new_lng = parseFloat(data.lng)
     if @last_lat and @last_lat <  @new_lat
