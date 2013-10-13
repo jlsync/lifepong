@@ -238,7 +238,7 @@ class PongApp
 
   # Creates an overlay for the sceen and a canvas to draw the game on
   createCanvas: ->
-    @canvas = new Canvas(500, 500)
+    @canvas = new Canvas(200, 200)
 
 
 
