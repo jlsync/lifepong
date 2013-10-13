@@ -182,15 +182,8 @@ class PongApp
       console.log("setting side LEFT for #{np.getName()}")
       np.setSide(LEFT)
     @addPlayer(np)
-    height = if count < 3
-              @canvas.height / 4
-             else if  count < 5
-              @canvas.height / 5
-             else
-              @canvas.height / 6
 
     for iname, ip of @players
-      ip.h = parseInt(height,10)
       ip.draw() # redraw all players
 
     np
