@@ -1,5 +1,5 @@
-BAT_ACCELERATION = 10 # 0.40
-BAT_TERMINAL_VELOCITY = 50
+BAT_ACCELERATION = 50 # 0.40
+BAT_TERMINAL_VELOCITY = 100
 BAT_FRICTION = 0.10
 BALL_ACCELERATION = 5
 BALL_TERMINAL_VELOCITY = 5
@@ -78,11 +78,9 @@ class Entity
   decelX: -> @vx -= @a
   decelY: -> @vy -= @a
 
-  #up: -> @vy -= @a
-  #down: -> @vy += @a
+  up: -> @vy -= @a
+  down: -> @vy += @a
   
-  up: -> @y -= @a
-  down: -> @y += @a
 
 class Bat extends Entity
   w: 40
@@ -111,6 +109,8 @@ class Bat extends Entity
     global.io.sockets.emit('mess', message: "drawing bat with id #{@id}")
     super()
 
+  up: -> @y -= @a
+  down: -> @y += @a
 
 class Ball extends Entity
   w: 4, h: 4, x: 20, y: 20, game_over: false
@@ -233,7 +233,7 @@ class PongApp
 
       # Run again unless we have been killed
       clearInterval(@interval_id) if @terminateRunLoop
-    , 400
+    , 500
 
   notifyCurrentUser: (message) ->
     # NODE TODO
