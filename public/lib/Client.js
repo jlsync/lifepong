@@ -1,7 +1,7 @@
 
 var Client = function( game ){
-  this.socket = io.connect();
   this.game = game;
+  this.socket = io.connect();
 }
 
 Client.prototype.bindPlayer = function( player ){
@@ -22,21 +22,21 @@ Client.prototype.bindPlayer = function( player ){
   });
 
   // debugging
-  debug( this );
+  debug( self );
 
-  this.socket.on( 'new_position', console.log.bind( console, 'RECV' ) );
+  // self.socket.on( 'new_position', console.log.bind( console, 'RECV' ) );
 
-  this.socket.on('broadcast', function(data){console.log("broadcast: " + data.message); }); 
-  this.socket.on('mess', function(data){console.log("mess: " + data.message); }); 
+  self.socket.on('broadcast', function(data){console.log("broadcast: " + data.message); }); 
+  self.socket.on('mess', function(data){console.log("mess: " + data.message); }); 
 
-  this.socket.on('connect', function(data){console.log("socket:connect"); }); 
-  this.socket.on('connecting', function(data){console.log("socket:connecting"); }); 
-  this.socket.on('disconnect', function(data){console.log("socket:disconnect"); }); 
-  this.socket.on('reconnect', function(data){console.log("socket:reconnect"); }); 
-  this.socket.on('reconnecting', function(data){console.log("socket:reconnecting"); }); 
-  this.socket.on('error', function(data){console.log("socket:error"); }); 
-  this.socket.on('connect_failed', function(data){console.log("socket:connect_failed"); }); 
-  this.socket.on('reconnect_failed', function(data){console.log("socket:reconnect_failed"); }); 
+  self.socket.on('connect', function(data){console.log("socket:connect"); }); 
+  self.socket.on('connecting', function(data){console.log("socket:connecting"); }); 
+  self.socket.on('disconnect', function(data){console.log("socket:disconnect"); }); 
+  self.socket.on('reconnect', function(data){console.log("socket:reconnect"); }); 
+  self.socket.on('reconnecting', function(data){console.log("socket:reconnecting"); }); 
+  self.socket.on('error', function(data){console.log("socket:error"); }); 
+  self.socket.on('connect_failed', function(data){console.log("socket:connect_failed"); }); 
+  self.socket.on('reconnect_failed', function(data){console.log("socket:reconnect_failed"); }); 
 }
 
 // h: 125
@@ -49,12 +49,18 @@ Client.prototype.bindPlayer = function( player ){
 var objects = {};
 
 function debug( client ){
+
   client.socket.on( 'new_position', function( data ){
+
+    console.log( ('<'+data.kind+'>').toUpperCase(), data );
+    
     if( !( data.id in objects ) ){
-      console.log( 'create new ' + data.kind );
       var Model = ( data.kind == 'bat' ) ? Paddle : Ball;
       objects[ data.id ] = new Model( client.game );
     }
-    objects[ data.id ].moveToLocation({ latitude: data.lat, longitude: data.lng });
+    objects[ data.id ].moveToLocation({
+      latitude: parseFloat(data.lat),
+      longitude: parseFloat(data.lng)
+    });
   });
 }

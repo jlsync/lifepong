@@ -1,7 +1,8 @@
 
 var Game = function( map ){
+  this.events = new EventEmitter();
   this.map = map;
-  this.center = null;
+  this.center = [ 0, 0 ];
   this.players = [];
   this.started = false;
   this.maxPlayers = 2;
@@ -27,9 +28,10 @@ Game.prototype.start = function(){
   if( !this.started ){
     this.started = true;
     this.center = findCenter( this.players );
-    // this.map.setView( this.center, 18 );
+    this.map.setView( this.center, 18 );
     var border = new Border( this );
     var ball = new Ball( this );
+    this.events.emit( 'start' );
   }
 }
 
