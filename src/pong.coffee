@@ -226,7 +226,7 @@ class PongApp
 
       # Run again unless we have been killed
       clearInterval(@interval_id) if @terminateRunLoop
-    , 500
+    , 350
 
   notifyCurrentUser: (message) ->
     # NODE TODO
