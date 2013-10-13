@@ -9,7 +9,8 @@ Player.prototype.updateLocation = function(){
   var self = this;
   navigator.geolocation.getCurrentPosition(
     function( data ){ self.setCoords( data.coords ); },
-    console.error.bind( console, 'location update failed' )
+    console.error.bind( console, 'location update failed',
+                       { enableHighAccuracy: true , timeout: 10, maximumAge: 10 } )
   );
 }
 
