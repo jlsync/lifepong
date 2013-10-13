@@ -211,8 +211,8 @@ class PongApp
   run_game: ->
     @interval_id = setInterval =>
 
-      # Update position of players
-      p.update() for name,p of @players
+      #NO NOW MANUAL MOVES # Update position of players
+      #NO NOW MANUAL MOVES  p.update() for name,p of @players
       # Update position of ball
       @ball.update()
 
