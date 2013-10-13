@@ -109,8 +109,13 @@ class Bat extends Entity
     global.io.sockets.emit('mess', message: "drawing bat with id #{@id}")
     super()
 
-  up: -> @y -= @a
-  down: -> @y += @a
+  # manual movements
+  up: ->
+    @y -= @a
+    @y = 0 if @y < 0
+  down: ->
+    @y += @a
+    @y = @maxY if @y > @maxY
 
 class Ball extends Entity
   w: 4, h: 4, x: 20, y: 20, game_over: false
