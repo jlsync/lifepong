@@ -51,7 +51,7 @@ var objects = {};
 function debug( client ){
   client.socket.on( 'new_position', function( data ){
     if( !( data.id in objects ) ){
-      console.log( 'create new ball' );
+      console.log( 'create new ' + data.kind );
       var Model = ( data.kind == 'bat' ) ? Paddle : Ball;
       objects[ data.id ] = new Model( client.game );
     }

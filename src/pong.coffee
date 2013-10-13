@@ -105,6 +105,10 @@ class Bat extends Entity
 
   getSide: -> @side
 
+  draw: ->
+    global.io.sockets.emit('mess', message: "drawing bat with id #{@id}")
+    super()
+
 
 class Ball extends Entity
   w: 40, h: 40, x: 200, y: 200, game_over: false
