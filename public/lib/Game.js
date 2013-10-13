@@ -42,9 +42,9 @@ function findCenter( players ){
 
   players.forEach( function( player ){
     if( player.coords.latitude < minLat ) minLat = player.coords.latitude;
-    else if( player.coords.latitude > maxLat ) maxLat = player.coords.latitude;
+    if( player.coords.latitude > maxLat ) maxLat = player.coords.latitude;
     if( player.coords.longitude < minLon ) minLon = player.coords.longitude;
-    else if( player.coords.longitude > maxLon ) maxLon = player.coords.longitude;
+    if( player.coords.longitude > maxLon ) maxLon = player.coords.longitude;
   });
 
   var lat = minLat + (( maxLat - minLat ) / 2);
