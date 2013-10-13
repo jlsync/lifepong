@@ -13,14 +13,15 @@ class Canvas
     @width = width
     @height = height
 
-  new_position: (id, x, y, w, h, kind ) ->
+  new_position: (id, x, y, w, h, kind, side ) ->
     global.io.sockets.emit('new_position',
       id: id
-      lat: "#{51.504 - parseFloat("0.#{x}")}"
-      lng: "#{0.0 - 0.01739 + parseFloat("0.#{y}")}"
+      lat: "#{51.50449 - ( y / 1000000.0)}"
+      lng: "#{0.0 - 0.01853 + ( x / 1000000.0 )}"
       w: w
       h: h
       kind: kind
+      side: side
     )
     #todo global emit or emit to players
     
@@ -67,7 +68,7 @@ class Entity
     @y = @minY if @y < @minY
 
   draw: ->
-    @canvas.new_position(@id, @x+@offsetX, @y+@offsetY, @w, @h, @kind )
+    @canvas.new_position(@id, @x+@offsetX, @y+@offsetY, @w, @h, @kind, @side )
 
   undraw: ->
     @canvas.undraw(@id, @kind )
@@ -99,9 +100,9 @@ class Bat extends Entity
   setSide: (side) ->
     @side = side
     if side is LEFT
-      @offsetX = 3
+      @offsetX = 0
     else
-      @offsetX = pong.canvas.width - 3
+      @offsetX = @maxX
 
   getSide: -> @side
 
@@ -173,7 +174,12 @@ class PongApp
     for name, p of @players
       count += 1
       if p.getSide() is LEFT then lc += 1 else rc += 1
-    if lc > rc then np.setSide(RIGHT) else np.setSide(LEFT)
+    if lc > rc
+      console.log("setting side RIGHT for #{np.getName()}")
+      np.setSide(RIGHT)
+    else
+      console.log("setting side LEFT for #{np.getName()}")
+      np.setSide(LEFT)
     @addPlayer(np)
     height = if count < 3
               @canvas.height / 4
@@ -238,7 +244,7 @@ class PongApp
 
   # Creates an overlay for the sceen and a canvas to draw the game on
   createCanvas: ->
-    @canvas = new Canvas(300, 300)
+    @canvas = new Canvas(1000, 1000)
 
 
 

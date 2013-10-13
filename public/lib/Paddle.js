@@ -12,8 +12,7 @@ var Paddle = function( game, style ){
     noClip: true
   }
 
-  // this.size = 0.0008; // paddle size (in degrees)
-  this.size = 0.008; // paddle size (in degrees)
+  this.size = 0.0002; // paddle size (in degrees)
 }
 
 Paddle.prototype.setPlayer = function( player ){
