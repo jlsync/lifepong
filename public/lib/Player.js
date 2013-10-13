@@ -19,7 +19,7 @@ Player.prototype.setCoords = function( coords ){
       coords.latitude !== this.coords.latitude ||
       coords.longitude !== this.coords.longitude ) {
     this.coords = coords;
-    this.events.emit( 'location', this.coords );
+    this.events.emit( 'my_location', this.coords );
   }
 }
 
