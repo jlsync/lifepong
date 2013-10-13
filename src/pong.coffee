@@ -16,8 +16,8 @@ class Canvas
   new_position: (id, x, y, w, h, kind ) ->
     global.io.sockets.emit('new_position',
       id: id
-      lat: "#{51.5 - parseFloat("0.#{x}")}"
-      lng: "0.#{y}"
+      lat: "#{51.504 - parseFloat("0.#{x}")}"
+      lng: "#{0.0 - 0.01739 + parseFloat("0.#{y}")}"
       w: w
       h: h
       kind: kind
@@ -99,9 +99,9 @@ class Bat extends Entity
   setSide: (side) ->
     @side = side
     if side is LEFT
-      @offsetX = 30
+      @offsetX = 3
     else
-      @offsetX = pong.canvas.width - 70
+      @offsetX = pong.canvas.width - 3
 
   getSide: -> @side
 
@@ -111,7 +111,7 @@ class Bat extends Entity
 
 
 class Ball extends Entity
-  w: 40, h: 40, x: 200, y: 200, game_over: false
+  w: 4, h: 4, x: 20, y: 20, game_over: false
   kind: 'ball'
 
   checkGameOver: -> @game_over
@@ -238,7 +238,7 @@ class PongApp
 
   # Creates an overlay for the sceen and a canvas to draw the game on
   createCanvas: ->
-    @canvas = new Canvas(200, 200)
+    @canvas = new Canvas(300, 300)
 
 
 

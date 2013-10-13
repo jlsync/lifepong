@@ -2,7 +2,7 @@
 var Ball = function( game, style ){
 
   this.game = game;
-  this.radius = 30;
+  this.radius = 20;
 
   this.style = style || {
     fill: true,
