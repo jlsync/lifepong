@@ -27,8 +27,10 @@ class Player extends EE
     @new_lat = parseFloat(data.latitude)
     @new_lng = parseFloat(data.longitude)
     if @last_lat and @last_lat <  @new_lat
+      console.log("moving #{@user_id} up", @new_lat)
       pong.move(from: @user_id, dir: "up")
     if @last_lat and @last_lat >  @new_lat
+      console.log("moving #{@user_id} down", @new_lat)
       pong.move(from: @user_id, dir: "down")
 
     @old_lat = @new_lat
