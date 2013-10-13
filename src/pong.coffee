@@ -1,5 +1,5 @@
-BAT_ACCELERATION = 9 # 0.40
-BAT_TERMINAL_VELOCITY = 5
+BAT_ACCELERATION = 10 # 0.40
+BAT_TERMINAL_VELOCITY = 50
 BAT_FRICTION = 0.10
 BALL_ACCELERATION = 5
 BALL_TERMINAL_VELOCITY = 5
@@ -78,10 +78,11 @@ class Entity
   decelX: -> @vx -= @a
   decelY: -> @vy -= @a
 
-  up: ->
-    @vy -= @a
-  down: ->
-    @vy += @a
+  #up: -> @vy -= @a
+  #down: -> @vy += @a
+  
+  up: -> @y -= @a
+  down: -> @y += @a
 
 class Bat extends Entity
   w: 40
@@ -165,7 +166,7 @@ class PongApp
     delete @players[from]
 
   newPlayer: (name) ->
-    np =  new Bat @canvas, @canvas.width, @canvas.height, 0, 0, 30, 0, BAT_ACCELERATION, BAT_TERMINAL_VELOCITY, BAT_FRICTION
+    np =  new Bat @canvas, @canvas.width, @canvas.height, 0, 0, 0 , @canvas.height / 2 , BAT_ACCELERATION, BAT_TERMINAL_VELOCITY, BAT_FRICTION
     np.setName(name)
     np.randColor()
     lc = 0
