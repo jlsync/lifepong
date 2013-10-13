@@ -16,7 +16,7 @@ class Canvas
   new_position: (id, x, y, w, h, kind ) ->
     global.io.sockets.emit('new_position',
       id: id
-      lat:  "51.#{x}"
+      lat: "#{51.5 - parseFloat("0.#{x}")}"
       lng: "0.#{y}"
       w: w
       h: h
@@ -105,6 +105,10 @@ class Bat extends Entity
 
   getSide: -> @side
 
+  draw: ->
+    global.io.sockets.emit('mess', message: "drawing bat with id #{@id}")
+    super()
+
 
 class Ball extends Entity
   w: 40, h: 40, x: 200, y: 200, game_over: false
@@ -178,10 +182,10 @@ class PongApp
              else
               @canvas.height / 6
 
-    for name, p of @players
-      p.h = parseInt(height,10)
+    for iname, ip of @players
+      ip.h = parseInt(height,10)
+      ip.draw() # redraw all players
 
-    np.draw()
     np
 
   addPlayer: (player) ->
